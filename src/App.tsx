@@ -8,24 +8,25 @@ import {
   useNodesState,
   useEdgesState,
   type OnConnect,
-  useReactFlow,
+  MarkerType,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
 import { initialNodes, nodeTypes } from './nodes';
-import { Node, Edge } from '@xyflow/react';
+import { Node } from '@xyflow/react';
 import './index.css';
-import { initialEdges, edgeTypes } from './edges';
+import { initialEdges, edgeTypes } from './edges/index';
 import { ExportButton } from './components/ExportButton';
 import { ImportButton } from './components/ImportButton';
+import { ConnectionLine } from './edges/ConnectionLine';
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<{ label: string }>>(initialNodes);
   const [nextId, setNextId] = useState(5);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const onConnect = useCallback<OnConnect>(
-    (connection) => setEdges((edges) => addEdge(connection, edges)),
+    (connection) => setEdges((edges) => addEdge({ ...connection, animated: true, markerEnd: { type: MarkerType.Arrow } }, edges)),
     [setEdges]
   );
 
@@ -86,6 +87,7 @@ export default function App() {
           edgeTypes={edgeTypes}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          connectionLineComponent={ConnectionLine}
           onDrop={(event) => {
             const type = event.dataTransfer.getData('application/reactflow');
             const position = { x: event.clientX - 650, y: event.clientY - 250 };

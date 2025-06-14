@@ -1,4 +1,5 @@
 import type { Edge, EdgeTypes } from '@xyflow/react';
+import { AnimatedSVGEdge } from './svgEdge';
 
 export const initialEdges: Edge[] = [
   { id: 'a->c', source: 'a', target: 'c', animated: true },
@@ -6,6 +7,7 @@ export const initialEdges: Edge[] = [
   { id: 'c->d', source: 'c', target: 'd', animated: true },
 ];
 
+
 export const edgeTypes = {
-  // Add your custom edge types here!
+  default: AnimatedSVGEdge 
 } satisfies EdgeTypes;
