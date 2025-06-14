@@ -1,13 +1,11 @@
 import type { NodeTypes } from '@xyflow/react';
+import { EditableNode } from './editableNode';
 
-import { PositionLoggerNode } from './PositionLoggerNode';
-import { AppNode } from './types';
-
-export const initialNodes: AppNode[] = [
+export const initialNodes = [
   { id: 'a', type: 'input', position: { x: 0, y: 0 }, data: { label: 'wire' } },
   {
     id: 'b',
-    type: 'position-logger',
+    type: 'editable-node',
     position: { x: -100, y: 100 },
     data: { label: 'drag me!' },
   },
@@ -18,9 +16,9 @@ export const initialNodes: AppNode[] = [
     position: { x: 0, y: 200 },
     data: { label: 'with React Flow' },
   },
+  {id: "test", type: "editable-node", position: { x: 200, y: 200 }, data: { label: 'Editable Node' } }
 ];
 
 export const nodeTypes = {
-  'position-logger': PositionLoggerNode,
-  // Add any of your custom nodes here!
+  'editable-node': EditableNode,
 } satisfies NodeTypes;
