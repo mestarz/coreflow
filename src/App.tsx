@@ -8,29 +8,33 @@ import {
   useNodesState,
   useEdgesState,
   type OnConnect,
-  useReactFlow,
+  MarkerType,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
-import { initialNodes, nodeTypes } from './nodes';
-import { Node, Edge } from '@xyflow/react';
+import { nodeTypes } from './nodes';
+import { Node } from '@xyflow/react';
 import './index.css';
-import { initialEdges, edgeTypes } from './edges';
+import { edgeTypes } from './edges/index';
 import { ExportButton } from './components/ExportButton';
 import { ImportButton } from './components/ImportButton';
+import { initialEdges, initialNodes } from "./initData.tsx"
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<{ label: string }>>(initialNodes);
-  const [nextId, setNextId] = useState(5);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nextId, setNextId] = useState(5);
+
   const onConnect = useCallback<OnConnect>(
-    (connection) => setEdges((edges) => addEdge(connection, edges)),
+    (connection) => setEdges((edges) => addEdge({ ...connection, animated: true, markerEnd: { type: MarkerType.Arrow } }, edges)),
     [setEdges]
   );
 
 
-  const dragNodeTypes = useMemo(() => ['input', 'output', 'editable-node'], []);
+  const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node'], []);
+  const connectionLineStyle = { stroke: 'red' }
+
 
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
@@ -59,8 +63,7 @@ export default function App() {
               event.dataTransfer.effectAllowed = 'move';
             }}
           >
-            {type === 'input' ? '输入节点' :
-              type === 'output' ? '输出节点' : '可编辑节点'}
+            {type}
           </div>
         ))}
       </div>
@@ -80,12 +83,18 @@ export default function App() {
 
         <ReactFlow
           nodes={nodes}
-          nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
           edges={edges}
-          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+
           onConnect={onConnect}
+          connectionLineStyle={connectionLineStyle}
+
+
+          // 拖动菜单，创建新节点
           onDrop={(event) => {
             const type = event.dataTransfer.getData('application/reactflow');
             const position = { x: event.clientX - 650, y: event.clientY - 250 };
