@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Handle, Position, useReactFlow } from '@xyflow/react';
+import { useState } from 'react'
+import { Handle, Position, useReactFlow } from '@xyflow/react'
 
-export function EditableNode({
+export function ContextNode({
   data,
   id,
 }: {
@@ -13,7 +13,7 @@ export function EditableNode({
   const [editedLabel, setEditedLabel] = useState(data.label || '');
 
   const handleLabelClick = () => {
-    setIsEditing(true);
+    setIsEditing(true)
   };
 
   const handleSave = () => {
@@ -36,7 +36,18 @@ export function EditableNode({
 
   return (
     // We add this class to use the same styles as React Flow's default nodes.
-    <div className="react-flow__node-default">
+    <div className="node"
+      style={{
+        background: '#f2e6ce',
+        display: 'flex',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        borderRadius: '10px',
+        justifyContent: 'space-around'
+      }}>
+      <Handle type="target" position={Position.Top} />
       {isEditing ? (
         <div style={{ padding: '8px' }}>
           <input
@@ -48,9 +59,9 @@ export function EditableNode({
           <button onClick={handleSave}>保存</button>
         </div>
       ) : (
-        <div 
+        <div
           onClick={handleLabelClick}
-          style={{ 
+          style={{
             padding: '8px',
             cursor: 'pointer',
             userSelect: 'none'
@@ -59,8 +70,8 @@ export function EditableNode({
           {data.label}
         </div>
       )}
-
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
+
 }
