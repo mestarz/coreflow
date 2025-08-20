@@ -20,6 +20,45 @@ import { edgeTypes } from './edges/index';
 import { ExportButton } from './components/ExportButton';
 import { ImportButton } from './components/ImportButton';
 import { initialEdges, initialNodes } from "./initData.tsx"
+import dagre from '@dagrejs/dagre';
+
+const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
+  const isHorizontal = direction === 'LR';
+  dagreGraph.setGraph({ rankdir: direction });
+
+  nodes.forEach((node: any) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge: any) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const newNodes = nodes.map((node: any) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    const newNode = {
+      ...node,
+      targetPosition: isHorizontal ? 'left' : 'top',
+      sourcePosition: isHorizontal ? 'right' : 'bottom',
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      position: {
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      },
+    };
+
+    return newNode;
+  });
+
+  return { nodes: newNodes, edges };
+};
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node<{ label: string }>>(initialNodes);
@@ -31,10 +70,22 @@ export default function App() {
     [setEdges]
   );
 
+  const onLayout = useCallback(
+    (direction: any) => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        nodes,
+        edges,
+        direction,
+      );
 
-  const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node'], []);
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    },
+    [nodes, edges],
+  );
+
+  const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node'], []);
   const connectionLineStyle = { stroke: 'red' }
-
 
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
@@ -66,6 +117,14 @@ export default function App() {
             {type}
           </div>
         ))}
+      </div>
+      <div>
+        <button className="xy-theme__button" onClick={() => onLayout('TB')}>
+          vertical layout
+        </button>
+        <button className="xy-theme__button" onClick={() => onLayout('LR')}>
+          horizontal layout
+        </button>
       </div>
       <div style={{
         position: 'absolute',
