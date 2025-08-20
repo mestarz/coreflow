@@ -1,10 +1,10 @@
 import { Edge } from '@xyflow/react'
 
 export const initialNodes = [
-  // { id: 'event0', type: 'group', data: {label:'遗迹逃生'}, style:{width: 200, height:200}, position:{x:100, y:100}},
-  // {id: 'event0-title', type: 'event-node', data: {label:'遗迹逃生'}, position:{x:0, y:0}, parentId:'event0', extent:'parent'},
-  // {id: 'event0-choice0', type: 'choice-node', data: {label: '服用红色药物'}, position: {x: 100, y:100}, parentId:'event0', extent:'parent'},
-  // {id: 'event0-choice1', type: 'choice-node', data: {label: '服用粉色药物'}, position: {x: 100, y:100}, parentId:'event0', extent:'parent'},
+  { id: 'event0', type: 'group', data: {label:'遗迹逃生'}, style:{width: 200, height:200}, position:{x:100, y:100}},
+  {id: 'event0-title', type: 'event-node', data: {label:'遗迹逃生'}, position:{x:0, y:0}, parentId:'event0', extent:'parent'},
+  {id: 'event0-choice0', type: 'choice-node', data: {label: '服用红色药物'}, position: {x: 100, y:100}, parentId:'event0', extent:'parent'},
+  {id: 'event0-choice1', type: 'choice-node', data: {label: '服用粉色药物'}, position: {x: 100, y:100}, parentId:'event0', extent:'parent'},
   { id: 'a', type: 'input', position: { x: 0, y: 0 }, data: { label: 'wire' } },
   {
     id: 'b',
