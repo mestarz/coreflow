@@ -38,7 +38,7 @@ export function EventNode({
     // We add this class to use the same styles as React Flow's default nodes.
     <div className="node"
       style={{
-        background: '#f2e6ce',
+        background: '#B34B43',
         display: 'flex',
         paddingLeft: '20px',
         paddingRight: '20px',
@@ -54,7 +54,7 @@ export function EventNode({
             value={editedLabel}
             onChange={(e) => setEditedLabel(e.target.value)}
             autoFocus
-            style={{ marginRight: '8px' }}
+            style={{ marginRight: '8px', fontSize: 30 }}
           />
           <button onClick={handleSave}>保存</button>
         </div>
@@ -64,7 +64,8 @@ export function EventNode({
           style={{
             padding: '8px',
             cursor: 'pointer',
-            userSelect: 'none'
+            userSelect: 'none',
+            fontSize: 30,
           }}
         >
           {data.label}
