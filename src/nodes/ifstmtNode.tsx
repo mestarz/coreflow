@@ -1,6 +1,6 @@
 import { Handle, Position } from '@xyflow/react'
 
-export function ChoiceNode({
+export function IfstmtNode({
   data,
   id,
 }: {
@@ -12,7 +12,7 @@ export function ChoiceNode({
     // We add this class to use the same styles as React Flow's default nodes.
     <div className="node"
       style={{
-        background: '#B2C9B2',
+        background: '#3CB371',
         display: 'flex',
         paddingLeft: '20px',
         paddingRight: '20px',

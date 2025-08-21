@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Handle, Position, useReactFlow } from '@xyflow/react'
 
-export function ContextNode({
+export function ContentNode({
   data,
   id,
 }: {
@@ -38,14 +38,15 @@ export function ContextNode({
     // We add this class to use the same styles as React Flow's default nodes.
     <div className="node"
       style={{
-        background: '#f2e6ce',
+        background: '#B0D8E8',
         display: 'flex',
         paddingLeft: '20px',
         paddingRight: '20px',
         paddingTop: '5px',
         paddingBottom: '5px',
         borderRadius: '10px',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        maxWidth: '30ch',
       }}>
       <Handle type="target" position={Position.Top} />
       {isEditing ? (

@@ -23,12 +23,20 @@ import { initialEdges, initialNodes } from "./initData.tsx"
 import dagre from '@dagrejs/dagre';
 
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-const nodeWidth = 172;
-const nodeHeight = 36;
+var nodeWidth = 300;
+var nodeHeight = 100;
 
 const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
+
+  if (isHorizontal) {
+    nodeWidth = 300;
+    nodeHeight = 80;
+  } else {
+    nodeWidth = 200;
+    nodeHeight = 100;
+  }
 
   nodes.forEach((node: any) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
@@ -84,7 +92,7 @@ export default function App() {
     [nodes, edges],
   );
 
-  const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node'], []);
+  const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node', 'content-node', 'ifstmt-node'], []);
   const connectionLineStyle = { stroke: 'red' }
 
   return (
