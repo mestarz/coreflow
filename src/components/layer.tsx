@@ -21,8 +21,9 @@ import {
 } from "@xyflow/react"
 
 import {
+    isOnlyOuputType,
     nodeTypes,
-} from "../nodes"
+} from "../nodes/node_define"
 
 import {
     edgeTypes,
@@ -31,6 +32,8 @@ import { FormatGraph } from "./format_graph";
 import { CreateNode } from "./create_node";
 import { IsValidFlowConnection } from "../edges/valid_connection";
 
+export const initialNodes = [];
+export const initialEdges: Edge[] = [];
 
 export function MainLayer(
     { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange }: {
@@ -43,7 +46,14 @@ export function MainLayer(
     }
 ) {
     const onConnect = useCallback<OnConnect>(
-        (connection) => setEdges((edges) => addEdge({ ...connection, animated: true, markerEnd: { type: MarkerType.Arrow } }, edges)),
+        (connection) => {
+            const { source } = connection;
+            if (isOnlyOuputType(source) && source) {
+                // 对于只有一个输出的节点，删除其他相关输出边
+                setEdges((edges) => edges.filter((e) => e.source != source));
+            }
+            setEdges((edges) => addEdge({ ...connection, animated: true, markerEnd: { type: MarkerType.Arrow } }, edges));
+        },
         [setEdges]
     );
     const connectionLineStyle = { stroke: 'red' }

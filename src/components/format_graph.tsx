@@ -23,7 +23,7 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
         nodeHeight = 80;
     } else {
         nodeWidth = 200;
-        nodeHeight = 100;
+        nodeHeight = 200;
     }
 
     nodes.forEach((node: any) => {
