@@ -8,7 +8,7 @@ export function CreateNode(
 
     }
 ) {
-    const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node', 'content-node', 'ifstmt-node'], []);
+    const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node', 'content-node', 'ifstmt-node', 'case-node'], []);
     const [pos, setPos] = useState<XYPosition | null>(null);
     const [showTool, setShowTool] = useState(false);
     const { screenToFlowPosition, setNodes } = useReactFlow();
@@ -63,7 +63,7 @@ export function CreateNode(
                         const position = screenToFlowPosition(pos);
                         const newNode = {
                             id: `${type}-create-${nextId}`,
-                            type,
+                            type: "flow-node",
                             position,
                             data: { label: `${type}` },
                         }

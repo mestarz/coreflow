@@ -1,19 +1,13 @@
 import { Connection, Edge } from "@xyflow/react";
 
-// event -> [content, choice, if]
-// choice -> [content]
-// content -> [*]
-// if -> [ifstmt, else]
-// ifstmt -> [content, choice, if]
-// else -> [content, choice, if]
-
 const validMap = {
     "event": ["content", "choice", "if"],
-    "choice": ["content"],
+    "choice": ["case"],
     "if": ["ifstmt", "else"],
     "ifstmt": ["content", "choice", "if"],
     "else": ["content", "choice", "if"],
-    "content": ["*"]
+    "content": ["*"],
+    "case": ["event"],
 }
 
 export function IsValidFlowConnection(connection: Connection | Edge): boolean {
