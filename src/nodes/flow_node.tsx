@@ -1,15 +1,9 @@
 import { Handle, Position } from '@xyflow/react'
 import { styleMap } from './node_define';
-import { flowNodeType } from './node_define';
-
+import { getNodeType } from './node_define';
 
 function getNodeStyle(id: string) {
-    for (const type of flowNodeType) {
-        if (id.startsWith(`${type}-`)) {
-            return styleMap[type];
-        }
-    }
-    throw (`未知类型${id}`)
+    return styleMap[getNodeType(id)]
 }
 
 export function FlowNode({
@@ -20,7 +14,6 @@ export function FlowNode({
     id: string;
 }) {
     return (
-        // We add this class to use the same styles as React Flow's default nodes.
         <div className="node"
             style={getNodeStyle(id)}>
             <Handle type="target" position={Position.Top} />

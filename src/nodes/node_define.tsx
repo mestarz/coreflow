@@ -1,5 +1,28 @@
-export const flowNodeType = ["choice", "case", "content", "else", "if", "ifstmt", "event"];
+import type { NodeTypes } from '@xyflow/react';
+import { FlowNode } from './flow_node.tsx';
+
+export const nodeTypes = {
+    'flow-node': FlowNode,
+} satisfies NodeTypes;
+
 type FlowNodeStyle = Record<string, string>
+// 所有的节点类型
+export const flowNodeType = ["choice", "case", "content", "else", "if", "ifstmt", "event"];
+// 只有一条输出边的节点
+export const onlyOuputType = ["case", "content", "else", "ifstmt", "event"]
+
+export function getNodeType(id: string) {
+    for (const type of flowNodeType) {
+        if (id.startsWith(`${type}-`)) {
+            return type;
+        }
+    }
+    throw (`未知类型${id}`)
+}
+
+export function isOnlyOuputType(id: string) {
+    return onlyOuputType.includes(getNodeType(id))
+}
 
 export const styleMap: Record<string, FlowNodeStyle> = {
     choice: {
