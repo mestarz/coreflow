@@ -1,3 +1,5 @@
+@import url('./xy-theme.css');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -9,4 +11,17 @@ body,
 #root {
   height: 100%;
   margin: 0;
+}
+
+.tool-overlay {
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  height: 100%;
+  width: 100%;
+  transform-origin: top left;
+  cursor: copy;
+  touch-action: none;
 }
