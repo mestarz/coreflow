@@ -29,6 +29,7 @@ import {
 } from "../edges"
 import { FormatGraph } from "./format_graph";
 import { CreateNode } from "./create_node";
+import { IsValidFlowConnection } from "../edges/valid_connection";
 
 
 export function MainLayer(
@@ -46,7 +47,7 @@ export function MainLayer(
         [setEdges]
     );
     const connectionLineStyle = { stroke: 'red' }
-    const [isRectangleActive, setIsRectangleActive] = useState(true);
+    const [isRectangleActive, setIsRectangleActive] = useState(false);
     const [nextId, setNextId] = useState(0);
     return (
         <ReactFlow
@@ -57,6 +58,7 @@ export function MainLayer(
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
             onConnect={onConnect}
+            isValidConnection={IsValidFlowConnection}
             connectionLineStyle={connectionLineStyle}
             onDragOver={(event) => {
                 event.preventDefault();

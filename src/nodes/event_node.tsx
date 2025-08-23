@@ -65,7 +65,7 @@ export function EventNode({
             padding: '8px',
             cursor: 'pointer',
             userSelect: 'none',
-            fontSize: 30,
+            fontSize: 20,
           }}
         >
           {data.label}

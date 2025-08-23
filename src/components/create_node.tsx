@@ -62,7 +62,7 @@ export function CreateNode(
                     onClick={() => {
                         const position = screenToFlowPosition(pos);
                         const newNode = {
-                            id: `create-${nextId}`,
+                            id: `${type}-create-${nextId}`,
                             type,
                             position,
                             data: { label: `${type}` },
