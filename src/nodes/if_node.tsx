@@ -64,7 +64,7 @@ export function IfNode({
           style={{ 
             padding: '8px',
             cursor: 'pointer',
-            userSelect: 'none'
+            userSelect: 'none',
           }}
         >
           {data.label}

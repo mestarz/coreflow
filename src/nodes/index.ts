@@ -1,10 +1,10 @@
 import type { NodeTypes } from '@xyflow/react';
-import { EventNode } from './eventNode.tsx'
-import { ChoiceNode } from './choiceNode.tsx'
-import { IfNode } from './ifNode.tsx';
-import { ContentNode } from './contentNode.tsx';
-import { ElseNode } from './elseNode.tsx';
-import { IfstmtNode } from './ifstmtNode.tsx';
+import { EventNode } from './event_node.tsx'
+import { ChoiceNode } from './choice_node.tsx'
+import { IfNode } from './if_node.tsx';
+import { ContentNode } from './content_node.tsx';
+import { ElseNode } from './else_node.tsx';
+import { IfstmtNode } from './ifstmt_node.tsx';
 
 export const nodeTypes = {
   'event-node': EventNode,
