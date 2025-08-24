@@ -10,6 +10,8 @@ type FlowNodeStyle = Record<string, string>
 export const flowNodeType = ["choice", "case", "content", "else", "if", "ifstmt", "event"];
 // 只有一条输出边的节点
 export const onlyOuputType = ["case", "content", "else", "ifstmt", "event"]
+// 可编辑节点
+export const editableNode = ["content", "if", "event", "case"]
 
 export function getNodeType(id: string) {
     for (const type of flowNodeType) {
@@ -22,6 +24,10 @@ export function getNodeType(id: string) {
 
 export function isOnlyOuputType(id: string) {
     return onlyOuputType.includes(getNodeType(id))
+}
+
+export function isEditableNode(id: string) {
+    return editableNode.includes(getNodeType(id))
 }
 
 export const styleMap: Record<string, FlowNodeStyle> = {

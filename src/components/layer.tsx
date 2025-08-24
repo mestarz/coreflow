@@ -21,6 +21,7 @@ import {
 } from "@xyflow/react"
 
 import {
+    isEditableNode,
     isOnlyOuputType,
     nodeTypes,
 } from "../nodes/node_define"
@@ -31,15 +32,18 @@ import {
 import { FormatGraph } from "./format_graph";
 import { CreateNode } from "./create_node";
 import { IsValidFlowConnection } from "../edges/valid_connection";
+import { EditTable } from "./edit_table";
 
 export const initialNodes = [];
 export const initialEdges: Edge[] = [];
 
+type LabelNode = Node<{ label: string }>
+
 export function MainLayer(
     { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange }: {
-        nodes: Node<{ label: string }>[],
-        setNodes: Dispatch<SetStateAction<Node<{ label: string }>[]>>,
-        onNodesChange: OnNodesChange<Node<{ label: string }>>,
+        nodes: LabelNode[],
+        setNodes: Dispatch<SetStateAction<LabelNode[]>>,
+        onNodesChange: OnNodesChange<LabelNode>,
         edges: Edge[],
         setEdges: Dispatch<SetStateAction<Edge[]>>,
         onEdgesChange: OnEdgesChange<Edge>,
@@ -59,11 +63,28 @@ export function MainLayer(
     const connectionLineStyle = { stroke: 'red' }
     const [isRectangleActive, setIsRectangleActive] = useState(false);
     const [nextId, setNextId] = useState(0);
+    const [editingNode, setEditingNode] = useState<LabelNode | null>(null)
+
+    const handleNodeClick = (_event: React.MouseEvent, node: LabelNode) => {
+        setEditingNode(null);
+        if (!isEditableNode(node.id)) {
+            return;
+        }
+        setEditingNode(node);
+    };
+    const handleUpdateNode = (id: string, newData: any) => {
+        setNodes(prev =>
+            prev.map(node =>
+                node.id === id ? { ...node, data: { ...node.data, ...newData } } : node
+            )
+        );
+    };
     return (
         <ReactFlow
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
+            onNodeClick={handleNodeClick}
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
@@ -93,6 +114,7 @@ export function MainLayer(
                 </div>
             </Panel>
             {isRectangleActive && <CreateNode nextId={nextId} setNextId={setNextId} />}
+            {!isRectangleActive && editingNode && <EditTable node={editingNode} setEditing={setEditingNode} handleUpdataData={handleUpdateNode} />}
             <FormatGraph nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} />
             <Background />
             <MiniMap />
