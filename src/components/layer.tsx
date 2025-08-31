@@ -11,7 +11,6 @@ import {
     Controls,
     Panel,
     MiniMap,
-    Node,
     MarkerType,
     Edge,
     addEdge,
@@ -33,17 +32,16 @@ import { FormatGraph } from "./format_graph";
 import { CreateNode } from "./create_node";
 import { IsValidFlowConnection } from "../edges/valid_connection";
 import { EditTable } from "./edit_table";
+import { FlowNodeType } from "../nodes/node_define";
 
 export const initialNodes = [];
 export const initialEdges: Edge[] = [];
 
-type LabelNode = Node<{ label: string }>
-
 export function MainLayer(
     { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange }: {
-        nodes: LabelNode[],
-        setNodes: Dispatch<SetStateAction<LabelNode[]>>,
-        onNodesChange: OnNodesChange<LabelNode>,
+        nodes: FlowNodeType[],
+        setNodes: Dispatch<SetStateAction<FlowNodeType[]>>,
+        onNodesChange: OnNodesChange<FlowNodeType>,
         edges: Edge[],
         setEdges: Dispatch<SetStateAction<Edge[]>>,
         onEdgesChange: OnEdgesChange<Edge>,
@@ -63,9 +61,9 @@ export function MainLayer(
     const connectionLineStyle = { stroke: 'red' }
     const [isRectangleActive, setIsRectangleActive] = useState(false);
     const [nextId, setNextId] = useState(0);
-    const [editingNode, setEditingNode] = useState<LabelNode | null>(null)
+    const [editingNode, setEditingNode] = useState<FlowNodeType | null>(null)
 
-    const handleNodeClick = (_event: React.MouseEvent, node: LabelNode) => {
+    const handleNodeClick = (_event: React.MouseEvent, node: FlowNodeType) => {
         setEditingNode(null);
         if (!isEditableNode(node.id)) {
             return;

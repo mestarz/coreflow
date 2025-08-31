@@ -1,7 +1,7 @@
 import dagre from '@dagrejs/dagre';
 import { useCallback } from 'react';
+import { FlowNodeType } from '../nodes/node_define';
 import {
-    Node,
     Edge,
     Panel,
 } from "@xyflow/react"
@@ -59,9 +59,9 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
 export function FormatGraph(
     { nodes, edges, setNodes, setEdges }: {
-        nodes: Node<{ label: string }>[],
+        nodes: FlowNodeType[],
         edges: Edge[],
-        setNodes: Dispatch<SetStateAction<Node<{ label: string }>[]>>,
+        setNodes: Dispatch<SetStateAction<FlowNodeType[]>>,
         setEdges: Dispatch<SetStateAction<Edge[]>>
     }
 ) {
