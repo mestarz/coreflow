@@ -1,4 +1,4 @@
-import {
+import React, {
     useState,
     Dispatch,
     useCallback,
@@ -6,6 +6,7 @@ import {
 } from "react"
 
 import {
+    XYPosition,
     ReactFlow,
     Background,
     Controls,
@@ -59,10 +60,20 @@ export function MainLayer(
         [setEdges]
     );
     const connectionLineStyle = { stroke: 'red' }
-    const [isRectangleActive, setIsRectangleActive] = useState(false);
-    const [nextId, setNextId] = useState(0);
-    const [editingNode, setEditingNode] = useState<FlowNodeType | null>(null)
 
+
+    // 切换模式 AI Mode / Edit Mode
+    const [isEditMode, setIsEditMode] = useState(true)
+
+    // 创建节点
+    const [createWindow, setCreateWindow] = useState(false)
+    // 记录节点创建窗口的position
+    const [createWindowPos, setCreateWindowPos] = useState<XYPosition>({x:0, y:0})
+    // 用于创建节点时给定id
+    const [nextId, setNextId] = useState(0);
+
+    // 节点编辑
+    const [editingNode, setEditingNode] = useState<FlowNodeType | null>(null)
     const handleNodeClick = (_event: React.MouseEvent, node: FlowNodeType) => {
         setEditingNode(null);
         if (!isEditableNode(node.id)) {
@@ -83,6 +94,12 @@ export function MainLayer(
             edges={edges}
             onNodesChange={onNodesChange}
             onNodeClick={handleNodeClick}
+            onPaneContextMenu={(event) => {
+                event.preventDefault()
+                setCreateWindow(true)
+                setCreateWindowPos({x:event.pageX, y: event.pageY})
+                console.log({x:event.pageX, y:event.pageY})
+            }}
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
@@ -98,21 +115,23 @@ export function MainLayer(
             <Panel position="top-center">
                 <div className="xy-theme__button-group">
                     <button
-                        className={`xy-theme__button ${isRectangleActive ? 'active' : ''}`}
-                        onClick={() => setIsRectangleActive(true)}
+                        className={`xy-theme__button ${!isEditMode? 'active' : ''}`}
+                        onClick={() => setIsEditMode(false)}
                     >
-                        Create Mode
+                        AI Mode
                     </button>
                     <button
-                        className={`xy-theme__button ${!isRectangleActive ? 'active' : ''}`}
-                        onClick={() => setIsRectangleActive(false)}
+                        className={`xy-theme__button ${isEditMode? 'active' : ''}`}
+                        onClick={() => setIsEditMode(true)}
                     >
-                        Select Mode
+                        Edit Mode
                     </button>
                 </div>
             </Panel>
-            {isRectangleActive && <CreateNode nextId={nextId} setNextId={setNextId} />}
-            {!isRectangleActive && editingNode && <EditTable node={editingNode} setEditing={setEditingNode} handleUpdataData={handleUpdateNode} />}
+            {isEditMode && createWindow && <CreateNode nextId={nextId} setNextId={setNextId} pos={createWindowPos} closeWindow={() => {
+                setCreateWindow(false);
+            }}/>}
+            {isEditMode && editingNode && <EditTable node={editingNode} setEditing={setEditingNode} handleUpdataData={handleUpdateNode} />}
             <FormatGraph nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} />
             <Background />
             <MiniMap />

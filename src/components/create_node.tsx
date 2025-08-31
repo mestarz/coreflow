@@ -1,29 +1,19 @@
-import { useState, Dispatch, SetStateAction, useMemo, type PointerEvent } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useReactFlow, type XYPosition } from '@xyflow/react';
 
 export function CreateNode(
-    { nextId, setNextId }: {
+    { nextId, setNextId, pos, closeWindow }: {
         nextId: number,
         setNextId: Dispatch<SetStateAction<number>>,
-
+        pos: XYPosition,
+        closeWindow: () => void,
     }
 ) {
     const dragNodeTypes = useMemo(() => ['event-node', 'choice-node', 'if-node', 'else-node', 'content-node', 'ifstmt-node', 'case-node'], []);
-    const [pos, setPos] = useState<XYPosition | null>(null);
-    const [showTool, setShowTool] = useState(false);
     const { screenToFlowPosition, setNodes } = useReactFlow();
 
-    function handlePointerDown(e: PointerEvent) {
-        if (showTool) {
-            return;
-        }
-        (e.target as HTMLCanvasElement).setPointerCapture(e.pointerId);
-        setPos({ x: e.pageX, y: e.pageY });
-        setShowTool(true);
-    }
-
     return (
-        showTool ? (pos && <div
+        <div
             className="nopan nodrag"
             style={
                 {
@@ -46,7 +36,7 @@ export function CreateNode(
                     color: 'black',
                     background: '#f34718',
                 }
-            } onClick={() => { setShowTool(false); }}>
+            } onClick={() => { closeWindow() }}>
                 取消
             </div>
             {dragNodeTypes.map((type) => (
@@ -69,15 +59,11 @@ export function CreateNode(
                         }
                         setNodes((nds) => nds.concat(newNode))
                         setNextId(nextId + 1);
-                        setShowTool(false);
+                        closeWindow()
                     }}
                 >
                     {type}
                 </div>
             ))}
         </div>)
-            :
-            (<div className="nopan nodrag tool-overlay" onPointerDown={handlePointerDown}>
-            </div>)
-    );
 }
