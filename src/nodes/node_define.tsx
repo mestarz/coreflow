@@ -1,9 +1,11 @@
-import type { NodeTypes } from '@xyflow/react';
+import type { NodeTypes, Node } from '@xyflow/react';
 import { FlowNode } from './flow_node.tsx';
 
 export const nodeTypes = {
     'flow-node': FlowNode,
 } satisfies NodeTypes;
+
+export type FlowNodeType = Node<{ label: string, vertical: boolean }>
 
 type FlowNodeStyle = Record<string, string>
 // 所有的节点类型

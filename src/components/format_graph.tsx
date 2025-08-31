@@ -1,7 +1,7 @@
 import dagre from '@dagrejs/dagre';
 import { useCallback } from 'react';
+import { FlowNodeType } from '../nodes/node_define';
 import {
-    Node,
     Edge,
     Panel,
 } from "@xyflow/react"
@@ -20,10 +20,10 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
     if (isHorizontal) {
         nodeWidth = 300;
-        nodeHeight = 80;
+        nodeHeight = 50;
     } else {
         nodeWidth = 200;
-        nodeHeight = 200;
+        nodeHeight = 100;
     }
 
     nodes.forEach((node: any) => {
@@ -38,8 +38,13 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
     const newNodes = nodes.map((node: any) => {
         const nodeWithPosition = dagreGraph.node(node.id);
+        var vertical = direction === 'TB' ? true : false
         const newNode = {
             ...node,
+            data: {
+                ...node.data,
+                vertical: vertical,
+            },
             targetPosition: isHorizontal ? 'left' : 'top',
             sourcePosition: isHorizontal ? 'right' : 'bottom',
             // We are shifting the dagre node position (anchor=center center) to the top left
@@ -59,9 +64,9 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
 export function FormatGraph(
     { nodes, edges, setNodes, setEdges }: {
-        nodes: Node<{ label: string }>[],
+        nodes: FlowNodeType[],
         edges: Edge[],
-        setNodes: Dispatch<SetStateAction<Node<{ label: string }>[]>>,
+        setNodes: Dispatch<SetStateAction<FlowNodeType[]>>,
         setEdges: Dispatch<SetStateAction<Edge[]>>
     }
 ) {

@@ -10,13 +10,13 @@ export function FlowNode({
     data,
     id,
 }: {
-    data: { label: string };
+    data: { label: string, vertical: boolean };
     id: string;
 }) {
     return (
         <div className="node"
             style={getNodeStyle(id)}>
-            <Handle type="target" position={Position.Top} />
+            <Handle type="target" position={data.vertical ? Position.Top : Position.Left} />
             <div
                 style={{
                     padding: '8px',
@@ -27,7 +27,7 @@ export function FlowNode({
             >
                 {data.label}
             </div>
-            <Handle type="source" position={Position.Bottom} />
+            <Handle type="source" position={data.vertical ? Position.Bottom : Position.Right} />
         </div>
     );
 }

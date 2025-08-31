@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { Node } from '@xyflow/react';
+import { FlowNodeType } from '../nodes/node_define';
 
 interface ExportButtonProps {
-  nodes: Node<{ label: string }>[];
+  nodes: FlowNodeType[];
   edges: any[];
 }
 

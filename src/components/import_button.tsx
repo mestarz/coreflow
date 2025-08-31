@@ -1,8 +1,8 @@
 import { useCallback, ChangeEvent } from 'react';
-import { Node } from '@xyflow/react';
+import { FlowNodeType } from '../nodes/node_define';
 
 interface ImportButtonProps {
-  setNodes: (nodes: Node<{ label: string }>[]) => void;
+  setNodes: (nodes: FlowNodeType[]) => void;
   setEdges: (edges: any[]) => void;
 }
 
@@ -47,7 +47,7 @@ export function ImportButton({ setNodes, setEdges }: ImportButtonProps) {
           cursor: 'pointer'
         }}
       >
-      导入图表
+        导入图表
       </button>
     </div>
   );

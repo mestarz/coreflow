@@ -1,13 +1,11 @@
-import { Node } from "@xyflow/react"
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, useRef } from "react"
-
-type LabelNode = Node<{ label: string }>;
+import { FlowNodeType } from "../nodes/node_define";
 
 export function EditTable(
     { node, setEditing, handleUpdataData }:
         {
-            node: LabelNode;
-            setEditing: Dispatch<SetStateAction<LabelNode | null>>;
+            node: FlowNodeType;
+            setEditing: Dispatch<SetStateAction<FlowNodeType | null>>;
             handleUpdataData: (id: string, newData: any) => void
         }
 ) {
