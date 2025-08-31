@@ -1,4 +1,4 @@
-import { Node, Edge, useNodesState, useEdgesState } from "@xyflow/react"
+import { Edge, useNodesState, useEdgesState } from "@xyflow/react"
 
 import { MainLayer } from './components/layer';
 import '@xyflow/react/dist/style.css';
@@ -6,12 +6,13 @@ import '@xyflow/react/dist/style.css';
 import './index.css';
 import { ExportButton } from './components/export_button';
 import { ImportButton } from './components/import_button';
+import { FlowNodeType } from "./nodes/node_define";
 
 export const initialNodes = [];
 export const initialEdges: Edge[] = [];
 
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node<{ label: string }>>(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState<FlowNodeType>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (

@@ -20,10 +20,10 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
     if (isHorizontal) {
         nodeWidth = 300;
-        nodeHeight = 80;
+        nodeHeight = 50;
     } else {
         nodeWidth = 200;
-        nodeHeight = 200;
+        nodeHeight = 100;
     }
 
     nodes.forEach((node: any) => {
@@ -38,8 +38,13 @@ const getLayoutedElements = (nodes: any, edges: any, direction = 'TB') => {
 
     const newNodes = nodes.map((node: any) => {
         const nodeWithPosition = dagreGraph.node(node.id);
+        var vertical = direction === 'TB' ? true : false
         const newNode = {
             ...node,
+            data: {
+                ...node.data,
+                vertical: vertical,
+            },
             targetPosition: isHorizontal ? 'left' : 'top',
             sourcePosition: isHorizontal ? 'right' : 'bottom',
             // We are shifting the dagre node position (anchor=center center) to the top left

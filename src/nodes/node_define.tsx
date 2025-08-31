@@ -5,7 +5,7 @@ export const nodeTypes = {
     'flow-node': FlowNode,
 } satisfies NodeTypes;
 
-export type FlowNodeType = Node<{ label: string }>
+export type FlowNodeType = Node<{ label: string, vertical: boolean }>
 
 type FlowNodeStyle = Record<string, string>
 // 所有的节点类型
